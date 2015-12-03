@@ -1,4 +1,4 @@
-var socket = io.connect('http://d.rhocode.com:5000'); //SocketIO Connection
+var socket = io.connect('http://d.rhocode.com:5001'); //SocketIO Connection
 
 var tutorID = -1; //Local tracking of tutor numbers
 var tuteeID = -1;
@@ -111,7 +111,7 @@ socket.on('tutor_connected', function(data) {
 function enQueue(myclass, name, location) {
 		in_queue = true;
     console.log(myclass.slice(12));
-    // var socket = io.connect('http://d.rhocode.com:5000');
+    // var socket = io.connect('http://d.rhocode.com:5001');
     // socket.on('connect', function() {
     $('#foundqueue').hide();
     $('#loadingqueue').show();
@@ -135,7 +135,7 @@ function enQueue(myclass, name, location) {
     //     // text('Tutors here: ' + data['tutors']);
     // });
     // // $.ajax({
-    // //   url:"http://d.rhocode.com:5000/enterQueue.html?class=" + myclass.slice(12),
+    // //   url:"http://d.rhocode.com:5001/enterQueue.html?class=" + myclass.slice(12),
     // //   data: {},
     // //   type: "GET",
     // //   crossDomain: true,
@@ -160,7 +160,7 @@ $(window).bind('beforeunload', function(){
 
 function sendLoginAttempt(query, name, location) {
     $.ajax({
-        url: "http://d.rhocode.com:5000/login.html" + query,
+        url: "http://d.rhocode.com:5001/login.html" + query,
         data: {},
         type: "GET",
         crossDomain: true,
@@ -189,7 +189,7 @@ function sendKeepAlive(tutorid) {
     if (tutorid == -1)
         return;
     $.ajax({
-        url: "http://d.rhocode.com:5000/keepalive.html?tutorid=" + String(tutorid),
+        url: "http://d.rhocode.com:5001/keepalive.html?tutorid=" + String(tutorid),
         data: {},
         type: "GET",
         crossDomain: true,
@@ -211,7 +211,7 @@ function sendKeepAlive(tutorid) {
 
 function populateTuteeTable() {
     $.ajax({
-        url: "http://d.rhocode.com:5000/tutoredsubjs.html?",
+        url: "http://d.rhocode.com:5001/tutoredsubjs.html?",
         data: {},
         type: "GET",
         crossDomain: true,
@@ -244,7 +244,7 @@ function populateTuteeTable() {
 
 function populateTable() {
     $.ajax({
-        url: "http://d.rhocode.com:5000/table.html",
+        url: "http://d.rhocode.com:5001/table.html",
         data: {},
         type: "GET",
         crossDomain: true,
