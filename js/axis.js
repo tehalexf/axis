@@ -1,270 +1,83 @@
-var socket = io.connect('http://d.rhocode.com:5001'); //SocketIO Connection
+var socket = io.connect('http://d.rhocode.com:5000'); //SocketIO Connection
 
 var tutorID = -1; //Local tracking of tutor numbers
-var tuteeID = -1;
+var tuteeRoom = -1;
 var tutorRoom = -1;
-var tuteeClass = "";
+var dropdown = true;
+var tdropdown = true;
 var in_queue = false;
+var queueing_for = -1;
+var master_dict = {};
 
-function createButton(id) {
-    return '<button id="' + id + '" type="button" class="btn btn-xs btn-success enterqueue" \
-	title="Enter Queue">\
-	<span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>\
-	</button>'
-}
-
-function encodeRFC5987ValueChars(str) {
-    return encodeURIComponent(str).
-        // Note that although RFC3986 reserves "!", RFC5987 does not,
-        // so we do not need to escape it
-    replace(/['()]/g, escape). // i.e., %27 %28 %29
-    replace(/\*/g, '%2A').
-        // The following are not required for percent-encoding per RFC5987, 
-        // so we can allow for a little better readability over the wire: |`^
-    replace(/%(?:7C|60|5E)/g, unescape);
-}
-
-function isNumeric(num) {
-    return !isNaN(num)
-}
-
-
-function setupTutor(tid, name, location, subjects) {
-	socket.emit('tutor_setup', {'name' : name, 'location' : location, 'tid' : tid, 'subjects' : subjects})
-	$("#tuteesign").hide();
-	$("#tutorsign").hide();
-}
-
-socket.on('no_tutees', function(data) {
-		console.log('Waiting game.')
-        tutorRoom = data.data;
-		$('#tutor_text_status').text('No tutees at this time. You\'ve joined room ' + data.data + '.');
-
-});
-
-
-socket.on('found_tutee', function(data) {
-		console.log('Found Tutee!');
-		$('#tutor_text_status').text('Your tutee is ' + unescape(data['tuteeName']) + ' in ' + unescape(data['tuteeLocation']));
-		setTimeout(function() {
-      $("#nextOrStart").removeClass('disabled');
-    }, 1000);
-});
-
-
-socket.on('found_tutor', function(data) {
-		$('#tutorname').text(unescape(data['name']));
-		$('#tutorlocation').text(unescape(data['location']));
-		$('#loadingqueue').fadeOut();
-		$('#foundqueue').fadeIn();
-		console.log(unescape(data['name']));
-		console.log(data['location']);
-		in_queue = false;
-});
-
-
-socket.on('tutee_queue_status', function(data) {
-		console.log(data.status);
-        console.log(data.tid);
-        console.log(data.myclass);
-		$(queuestatus2).text(data.status);
-        tuteeID = data.tid;
-        tuteeClass = data.myclass;
-});
-
-
-
-socket.on('tutor_connected', function(data) {
-	if (data['status'] == 'success') {
-		console.log('Tutor has been added.');
-		$('#tutor-control-panel').fadeIn();
-                $('#nextOrStart').text('Start Tutoring').removeClass('disabled');
-		$('#tutor_text_status').text('You are connected!');
-	} else {
-		console.log('Tutor could not be added.');
-	}
-    // if ($("#nextOrStart").hasClass('disabled'))
-    //   return;
-    // $('#tutor_text_status').text('You are connected!');
-
-
-
- //    $("#nextOrStart").bind( "click", function() {
- //      $('#tutor_text_status').text('Looking for someone to tutor...');
- //      $("#nextOrStart").text('Next Person').addClass('disabled');
- //      socket.emit('can_tutor');
- //      console.log("CLICKEDDDDDDD");
-
-	// }
-	
- //    });
-});
-
-    // socket.on('found_tutee', function() {
-    //     $('#tutor_text_status').text('Your tutee should be arriving shortly.');
-    //     $("#nextOrStart").removeClass('disabled');
-    // });
-
-
-
-
-function enQueue(myclass, name, location) {
-		in_queue = true;
-    console.log(myclass.slice(12));
-    // var socket = io.connect('http://d.rhocode.com:5001');
-    // socket.on('connect', function() {
-    $('#foundqueue').hide();
-    $('#loadingqueue').show();
-    console.log('We waiting in queue now!')
-    socket.emit('tutee_setup', {
-        'tuteeClass': myclass.slice(12), 'tuteeName': name, 'tuteeLocation' : location
+socket.on('tutor_table_resp', function(data) {
+    console.log(data);
+    var $data = $('<div>');
+    var numitems = 0;
+    $.each(data.data, function(i, item) {
+        numitems++;
+        var $tr = $('<tr id=\'' + item.tutorID + '\'>').append(
+            $('<td>').text(item.name),
+            $('<td>').text(item.location),
+            $('<td>').text(item.subjects),
+            $('<td>').text(item.status)
+            );
+        $data.append($tr);
     });
-    // });
+    if (numitems == 0)
+        $data.append($.parseHTML('<tr><td>No tutors present.</td><td/><td/><td/></tr>'));
+    $('#tutorbody').html($data.html());
+});
 
-    // socket.on('tutors_for_subj', function(dat) {
-    //     console.log('Got number of tutors!')
-    //     $('#queuestatus1').text('Tutors here: ' + dat['tutors']);
-    //     socket.emit('wait_spot');
-    // });
 
-    // socket.on('found_tutor', function(data) {
-    //     console.log('Got a tutor!')
-    //     $('#loadingqueue').fadeOut();
-    //     $('#foundqueue').fadeIn();
 
-    //     // text('Tutors here: ' + data['tutors']);
-    // });
-    // // $.ajax({
-    // //   url:"http://d.rhocode.com:5001/enterQueue.html?class=" + myclass.slice(12),
-    // //   data: {},
-    // //   type: "GET",
-    // //   crossDomain: true,
-    // //   dataType: "jsonp",
-    // //   success: function (data) {
-    // //     // $("#displaymodalText").text("You have been successfully queued");
-    // //   },
-    // //   error: function (xhr, status) {
-    // //   },
-    // //   complete: function (xhr, status) {
-    // //     console.log("complete");
-    // //   }
-    // // });
-
-}
-
-$(window).bind('beforeunload', function(){
-    if( tutorID != -1 || in_queue ){
-        return "You are leaving the tutoring page. If you are a tutor, your session will be destroyed. If you are waiting in queue, you will be removed."
+socket.on('login_resp', function(data) {
+    console.log(data);
+    if (data['status'] == 'failed')
+        $("#serverresponselogin").text("Sign-in failed.");
+    else {
+        tutorID = data.tutorcode;
+        $("#serverresponselogin").html("Sign-in successful! Welcome " + $("#name").val() + '! Your tutor code is <b>' + data.tutorcode + '</b>.');
+        socket.emit('tutor_table_req');
     }
+   
 });
 
-function sendLoginAttempt(query, name, location) {
+function pcping() {
     $.ajax({
-        url: "http://d.rhocode.com:5001/login.html" + query,
+        url: "http://d.rhocode.com:5000/pinghost.html",
         data: {},
         type: "GET",
         crossDomain: true,
         dataType: "jsonp",
         success: function(data) {
-            if (data.status == 'success') {
-                tutorID = data.tutorcode;
-                $("#serverresponselogin").html("Sign-in successful! Welcome " + $("#name").val() + '! Your tutor code is <b>' + data.tutorcode + '</b>.');
-                populateTable();
-                setupTutor(tutorID, name, location, data.subjects);
+            if (data.pc != '-1') {
+                $("#locationformgroup").hide();
+                $("#locationform").hide();
+                $("#computerform").show();
+                $("#num").val(data.pc);
+                $("#num").prop('disabled', true);
             } else {
-                $("#serverresponselogin").text("Sign-in failed.");
+                $("#locationformgroup").hide();
+                $("#locationform").show();
+                $("#computerform").hide();
+                dropdown = false;
             }
 
-        },
-        error: function(xhr, status) {
-            $("#serverresponselogin").text("Server might be offline. Please contact aafu@ucdavis.edu!");
-        },
-        complete: function(xhr, status) {
 
-        }
-    });
-}
-
-function sendKeepAlive(tutorid) {
-    if (tutorid == -1)
-        return;
-    $.ajax({
-        url: "http://d.rhocode.com:5001/keepalive.html?tutorid=" + String(tutorid),
-        data: {},
-        type: "GET",
-        crossDomain: true,
-        dataType: "jsonp",
-        success: function(data) {
-            if (data.status != 'success') {
-                $("#serverresponselogin").text("Your session has expired. Please relog.");
-                $('#signin').modal('show');
+            if (data.pc != '-1') {
+                $("#tlocationformgroup").hide();
+                $("#tlocationform").hide();
+                $("#tcomputerform").show();
+                $("#tnum").val(data.pc);
+                $("#tnum").prop('disabled', true);
+            } else {
+                $("#tlocationformgroup").hide();
+                $("#tlocationform").show();
+                $("#tcomputerform").hide();
+                tdropdown = false;
             }
-        },
-        error: function(xhr, status) {
-
-        },
-        complete: function(xhr, status) {
-            console.log("Keepalive Sent.");
-        }
-    });
-}
-
-function populateTuteeTable() {
-    $.ajax({
-        url: "http://d.rhocode.com:5001/tutoredsubjs.html?",
-        data: {},
-        type: "GET",
-        crossDomain: true,
-        dataType: "jsonp",
-        success: function(data) {
-            var $data = $('<div>');
-            var numitems = 0;
-            $.each(data.data, function(i, item) {
-                numitems++;
-                var $tr = $('<tr id=\'class-' + item.subject + '\'>').append(
-                    $('<td>').text(item.subject),
-                    $('<td>').text(item.queue),
-                    $('<td>').html($.parseHTML(createButton('enter-queue-' + item.subject)))
-                );
-                $data.append($tr);
-            });
-            if (numitems == 0)
-                $data.append($.parseHTML('<tr><td>There are no tutored classes at this time.</td><td/><td/></tr>'));
-            $('#tutoringsubjectbody').html($data.html());
-        },
-        error: function(xhr, status) {
-
-        },
-        complete: function(xhr, status) {
-            console.log("Table populated.");
-        }
-    });
-}
 
 
-function populateTable() {
-    $.ajax({
-        url: "http://d.rhocode.com:5001/table.html",
-        data: {},
-        type: "GET",
-        crossDomain: true,
-        dataType: "jsonp",
-        success: function(data) {
-            console.log(data);
-            var $data = $('<div>');
-            var numitems = 0;
-            $.each(data.data, function(i, item) {
-                numitems++;
-                var $tr = $('<tr id=\'' + item.tutorID + '\'>').append(
-                    $('<td>').text(item.name),
-                    $('<td>').text(item.location),
-                    $('<td>').text(item.subjects)
-                );
-                $data.append($tr);
-            });
-            if (numitems == 0)
-                $data.append($.parseHTML('<tr><td>There are no tutors at this time.</td><td/><td/></tr>'));
-            $('#tutorbody').html($data.html());
         },
         error: function(xhr, status) {},
         complete: function(xhr, status) {
@@ -274,19 +87,220 @@ function populateTable() {
 }
 
 
-function submitSignIn(dropdown) {
+
+// socket.emit('login_req', {'name' : 'a', 'pass' : 'csrocks', 'location' : 'home', 'subjects' : '10'});
+
+
+function createButton(id) {
+    return '<button id="' + id + '" type="button" class="btn btn-xs btn-success enterqueue" \
+    title="Enter Queue">\
+    <span class="glyphicon glyphicon glyphicon-time" aria-hidden="true"></span>\
+    </button>'
+}
+
+function encodeRFC5987ValueChars(str) {
+    return str;
+    // Taken out, possibly replace later.
+
+    // return encodeURIComponent(str).
+    //     // Note that although RFC3986 reserves "!", RFC5987 does not,
+    //     // so we do not need to escape it
+    // replace(/['()]/g, escape). // i.e., %27 %28 %29
+    // replace(/\*/g, '%2A').
+    //     // The following are not required for percent-encoding per RFC5987, 
+    //     // so we can allow for a little better readability over the wire: |`^
+    // replace(/%(?:7C|60|5E)/g, unescape);
+}
+
+function isNumeric(num) {
+    return !isNaN(num)
+}
+
+
+// function setupTutor(tid, name, location, subjects) {
+// 	socket.emit('tutor_setup', {'name' : name, 'location' : location, 'tid' : tid, 'subjects' : subjects})
+// 	$("#tuteesign").hide();
+// 	$("#tutorsign").hide();
+// }
+
+
+function updateCurrentTutors() {
+    var string1 = "Current Tutors: ";
+    var string2 = " for "
+    var string3 = string2.concat(String(queueing_for));
+    if (master_dict.hasOwnProperty(parseInt(queueing_for)) && master_dict[parseInt(queueing_for)] != 0 )
+        $('#queuestatus2').text(string1.concat(String(master_dict[parseInt(queueing_for)])).concat(string3));
+    else
+        $('#queuestatus2').text("No tutors avaliable for ".concat(String(queueing_for)).concat("."));
+}
+
+socket.on('tutor_has_no_tutees_resp', function(data) {
+		console.log('Waiting for a tutee.')
+        tutorRoom = data.data;
+		$('#tutor_text_status').text('No tutees at this time. You\'ve joined room ' + data.data + '.');
+});
+
+
+socket.on('tutor_found_tutee_resp', function(data) {
+	console.log('A tutee was found!');
+	$('#tutor_text_status').text('Your tutee is ' + unescape(data['tuteeName']) + ' -- ' + unescape(data['tuteeLocation']));
+	setTimeout(function() {
+      $("#nextOrStart").removeClass('disabled');
+    }, 1000);
+});
+
+
+socket.on('tutee_found_tutor_resp', function(data) {
+		$('#tutorname').text(unescape(data['name']));
+		$('#tutorlocation').text(unescape(data['location']));
+		$('#loadingqueue').hide();
+		$('#foundqueue').fadeIn();
+        $('#exitqueue').text("Done");
+		console.log(unescape(data['name']));
+		console.log(data['location']);
+		in_queue = false;
+});
+
+
+socket.on('tutee_queue_status', function(data) {
+		$(queuestatus1).text(data.status);
+        tuteeRoom = data.room;
+        tuteeClass = data.myclass;
+
+        updateCurrentTutors();
+});
+
+
+// function populateTuteeTable() {
+//     $.ajax({
+//         url: "http://d.rhocode.com:5001/tutoredsubjs.html?",
+//         data: {},
+//         type: "GET",
+//         crossDomain: true,
+//         dataType: "jsonp",
+//         success: function(data) {
+//             var $data = $('<div>');
+//             var numitems = 0;
+//             $.each(data.data, function(i, item) {
+//                 numitems++;
+//                 var $tr = $('<tr id=\'class-' + item.subject + '\'>').append(
+//                     $('<td>').text(item.subject),
+//                     $('<td>').text(item.queue),
+//                     $('<td>').html($.parseHTML(createButton('enter-queue-' + item.subject)))
+//                 );
+//                 $data.append($tr);
+//             });
+//             if (numitems == 0)
+//                 $data.append($.parseHTML('<tr><td>There are no tutored classes at this time.</td><td/><td/></tr>'));
+//             $('#tutoringsubjectbody').html($data.html());
+//         },
+//         error: function(xhr, status) {
+
+//         },
+//         complete: function(xhr, status) {
+//             console.log("Table populated.");
+//         }
+//     });
+// }
+
+socket.on('tutor_connected_resp', function(data) {
+    console.log(data);
+    console.log("Poop");
+    if (data['status'] == 'success') {
+        console.log('Tutor has been added.');
+        $('#tutor-control-panel').fadeIn();
+        $('#nextOrStart').text('Start Tutoring').removeClass('disabled');
+        $('#tutor_text_status').text('You are connected!');
+        socket.emit('subjects_broadcast_req');
+    } else {
+      console.log('Tutor could not be added.');
+  }
+});
+
+
+socket.on('subjects_resp', function(data) {
+    var $data = $('<div>');
+    var numitems = 0;
+    var temp_dict = {};
+    $.each(data.data, function(i, item) {
+        numitems++;
+        temp_dict[item.subject] = item.tutors;
+        var $tr = $('<tr id=\'class-' + item.subject + '\'>').append(
+            $('<td>').text(item.subject),
+            $('<td>').text(item.queue),
+            $('<td>').html($.parseHTML(createButton('enter-queue-' + item.subject)))
+        );
+        $data.append($tr);
+    });
+
+    for (var key in temp_dict) {
+        if (!master_dict.hasOwnProperty(key))
+            master_dict[key] = temp_dict[key];
+    }
+
+    for (var key in master_dict) {
+        if (temp_dict.hasOwnProperty(key))
+            master_dict[key] = temp_dict[key];
+        else
+            master_dict[key] = 0;
+    }
+
+    if (in_queue) {
+        updateCurrentTutors();
+    }
+    
+    console.log("UPDATED DICT");
+    console.log(master_dict);
+    if (numitems == 0)
+        $data.append($.parseHTML('<tr><td>There are no tutored classes at this time.</td><td/><td/></tr>'));
+    $('#tutoringsubjectbody').html($data.html());
+    console.log(data);
+
+});
+
+
+
+
+
+
+function enQueue(myclass, name, location) {
+	in_queue = true;
+    console.log(myclass.slice(12));
+    queueing_for = myclass.slice(12);
+    // var socket = io.connect('http://d.rhocode.com:5001');
+    // socket.on('connect', function() {
+    $('#foundqueue').hide();
+    $('#loadingqueue').show();
+    console.log('We waiting in queue now!')
+    socket.emit('tutee_req', {
+        'tuteeClass': myclass.slice(12), 'tuteeName': name, 'tuteeLocation' : location
+    });
+
+
+}
+
+$(window).bind('beforeunload', function(){
+    if( tutorID != -1 || in_queue ){
+        return "You are leaving the tutoring page. If you are a tutor, your session will be destroyed. If you are waiting in queue, you will be removed."
+    }
+});
+
+
+
+
+function submitSignIn() {
     //input validation
     var valid = 0;
     var query = "?name=";
-    var name, location;
+    var name, location, pass, subjects;
 
     if (!$("#name").val()) {
         $("#name").parent('div').addClass("has-error");
     } else {
         $("#name").parent('div').removeClass("has-error");
         valid++;
+        console.log(1);
         name = encodeRFC5987ValueChars($("#name").val());
-        query += name;
     }
 
     if (dropdown) {
@@ -296,7 +310,6 @@ function submitSignIn(dropdown) {
             $("#num").parent('div').removeClass("has-error");
             valid++;
             location = encodeRFC5987ValueChars($("#num").val());
-            query += "&num=" + location;
         }
     } else {
         if (!$("#location").val()) {
@@ -305,7 +318,6 @@ function submitSignIn(dropdown) {
             $("#location").parent('div').removeClass("has-error");
             valid++;
             location = encodeRFC5987ValueChars($("#location").val());
-            query += "&loc=" + location;
         }
     }
 
@@ -315,23 +327,22 @@ function submitSignIn(dropdown) {
     } else {
         $("#subject").parent('div').removeClass("has-error");
         valid++;
-        query += "&sub=" + encodeRFC5987ValueChars($("#subject").val());
+        subjects = encodeRFC5987ValueChars($("#subject").val());
     }
     if (!$("#password").val()) {
         $("#password").parent('div').addClass("has-error");
     } else {
         $("#password").parent('div').removeClass("has-error");
         valid++;
-        query += "&pass=" + encodeRFC5987ValueChars($("#password").val());
+        pass = encodeRFC5987ValueChars($("#password").val());
     }
 
     if (valid == 4) {
         //do submit
-        console.log("we good");
-        console.log(query);
-        sendLoginAttempt(query, name, location);
+        socket.emit('login_req', {'name' : name, 'pass' : pass, 'location' : location, 'subjects' : subjects});
+
     } else {
-        console.log("nice try kid");
+        console.log("Login failure.");
     }
 
 }
@@ -350,23 +361,26 @@ $(document).ready(function() {
     		return;
     	$('#tutor_text_status').text('Looking for someone to tutor...');
     	$("#nextOrStart").text('Next Person').addClass('disabled');
-	  	// socket.emit('can_tutor');
-	  	console.log("Next person activated.");
-
-       socket.emit('ready_to_tutor');
-		});
+	  	console.log("Looking for person to tutor");
+        socket.emit('tutor_ready_req');
+    });
 
     $("#exitqueue").bind( "click", function() {
-        if (tuteeID != -1) {
+        $('#exitqueue').text("Cancel Queue");
+        if (tuteeRoom != -1) {
           // socket.emit('force_tutee_remove', {'myclass' : tuteeClass, 'tuteeID' : tuteeID});  
-          socket.emit('force_tutee_remove', {'tuteeID' : tuteeID, 'myclass' : tuteeClass})
+          socket.emit('force_tutee_remove_req', {'room' : tuteeRoom, 'myclass' : tuteeClass})
           console.log("Removed tutee");
+          tuteeRoom = -1;
         }     
     });
 
     $("#disconnect").bind( "click", function() {
         if (tutorID != -1) {
-            socket.emit('force_tutor_remove', {'tutorRoom' : tutorRoom});
+            console.log('tutorID');
+            if (tutorRoom != -1)
+                socket.emit('force_tutor_remove_req', {'tutorRoom' : tutorRoom});
+            socket.emit('remove_tutorinfo_req');
             tutorRoom = -1;
             tutorID = -1;
             $('#tutor-control-panel').fadeOut();
@@ -377,29 +391,15 @@ $(document).ready(function() {
     });
 
 
-    var dropdown = true;
-    var tdropdown = true;
 
     // dropdown changer
 
-
-
-
-    populateTable();
-
-    setInterval(function() {
-        populateTable();
-    }, 60000);
-
-    setInterval(function() {
-        sendKeepAlive(tutorID);
-    }, 60000);
-
     $('#refreshtable').click(function() {
+        //Just for appearences
         $('#refreshicon').addClass('fa-spin-custom');
         var button = $(this);
         button.prop('disabled', true).css('cursor', 'default');
-        populateTable();
+        // populateTable();
         setTimeout(function() {
             button.prop('disabled', false);
             $('#refreshicon').removeClass('fa-spin-custom');
@@ -444,7 +444,7 @@ $(document).ready(function() {
           name = encodeRFC5987ValueChars($("#tname").val());
       }
 
-      if (dropdown) {
+      if (tdropdown) {
           if (!$("#tnum").val() || !isNumeric($("#tnum").val())) {
               $("#tnum").parent('div').addClass("has-error");
           } else {
@@ -462,13 +462,14 @@ $(document).ready(function() {
           }
       }
 
+      console.log("HEJEJND");
       if (valid != 2)
       	return;
-
+      console.log("HEJEdJND");
       $('#signup').modal('hide');
       $('#signin').modal('hide');
       $('#queue').modal('show');
-      
+
       enQueue(tr_id, name, location);
     });
 
@@ -479,30 +480,35 @@ $(document).ready(function() {
         show: false
     })
 
-    // form submission
-    $("#ttsignup").click(function(e) {
-        populateTuteeTable();
-    });
+    // // form submission
+    // $("#ttsignup").click(function(e) {
+    //     populateTuteeTable();
+    // });
 
-    $("#submit").click(function(e) {
-        submitSignIn(dropdown);
-    });
+$("#submit").click(function(e) {
+    submitSignIn(dropdown);
+});
 
-    $('#signin').keypress(function(e) {
-        if (e.keyCode == 13) {
-            submitSignIn();
-        }
-    });
+$('#signin').keypress(function(e) {
+    if (e.keyCode == 13) {
+        submitSignIn();
+    }
+});
 
-    // row toggle
-    $(".rowtoggle").click(function(e) {
-        if ($(this).hasClass("success")) {
-            $(this).addClass("danger").removeClass("success");
-            //send to server BUSY
-        } else {
-            $(this).addClass("success").removeClass("danger");
-            //send to server AVAILABLE
-        }
-    });
+    // // row toggle
+    // $(".rowtoggle").click(function(e) {
+    //     if ($(this).hasClass("success")) {
+    //         $(this).addClass("danger").removeClass("success");
+    //         //send to server BUSY
+    //     } else {
+    //         $(this).addClass("success").removeClass("danger");
+    //         //send to server AVAILABLE
+    //     }
+    // });
+pcping();
+socket.emit('tutor_table_single_req');
+socket.emit('subjects_req');
+console.log("REQUESTED SUBS");
+
 
 });

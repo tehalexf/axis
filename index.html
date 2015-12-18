@@ -53,11 +53,11 @@
               </div>
 
 
-              <div class="form-group">
+              <div class="form-group" id="tlocationformgroup">
                 <label for="tlocation">Location</label>
                 <select name="tplace" id="tlocationdropdown">
                   <option value="tcomputer">Computer #</option>
-                  <option value="tlocation">Other</option>
+                  <option value="tlocation">Location</option>
                 </select>
               </div>
 
@@ -67,7 +67,7 @@
               </div>
 
               <div class="form-group" id="tlocationform">
-                <label class="control-label" for="text">Other</label>
+                <label class="control-label" for="text">Location</label>
                 <input class="form-control" id="tlocation" placeholder="Lobby">
               </div>
 
@@ -83,8 +83,7 @@
                     <tr id="1">
                       <td>50</td>
                       <td>0</td>
-                      <td>
-                      </td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
@@ -114,11 +113,11 @@
               </div>
 
 
-              <div class="form-group">
+              <div id="locationformgroup" class="form-group">
                 <label for="location">Location</label>
                 <select name="place" id="locationdropdown">
                   <option value="computer">Computer #</option>
-                  <option value="location">Other</option>
+                  <option value="location">Location</option>
                 </select>
               </div>
 
@@ -128,7 +127,7 @@
               </div>
 
               <div class="form-group" id="locationform">
-                <label class="control-label" for="text">Other</label>
+                <label class="control-label" for="text">Location</label>
                 <input autocomplete="off"  class="form-control" id="location" placeholder="Lobby">
               </div>
 
@@ -162,7 +161,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title">Queue</h3>
+            <h3 id="queueTitle" class="modal-title">Tutoring Queue</h3>
           </div>
           <div class="modal-body" id="displaymodalText">
 <div id="loadingqueue" >
@@ -174,7 +173,7 @@
     <i></i>
   </div>
 </div>
-<br/><br/>
+<br/><br/><br/>
 <div class="text-center">Waiting For Tutors...</div>
 <div class="text-center" id="queuestatus1"></div>
 <div class="text-center" id="queuestatus2"></div>
@@ -244,15 +243,17 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <td>Name</td>
+              <td style="white-space: nowrap;">Name</td>
               <td>Location/Computer #</td>
               <td>Subject(s)</td>
+              <td>Status</td>
             </tr>
           </thead>
           <tbody id="tutorbody">
             <!-- sample data, will be populated based on server data-->
             <tr id="1">
               <td>Loading Tutor List...</td>
+              <td></td>
               <td></td>
               <td></td>
             </tr>
