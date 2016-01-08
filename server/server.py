@@ -410,7 +410,7 @@ def tutee_connection(data):
 	else:
 		room = unifiedQueue.add_tutee(session['subjects'], session['name'], session['location'])
 		join_room(room)
-		emit('tutee_queue_status', {'status' : 'All current tutors are occupued.', 'tid' : room, 'myclass' : session['subjects']})
+		emit('tutee_queue_status', {'status' : 'All current tutors are occupied.', 'tid' : room, 'myclass' : session['subjects']})
 
 
 @socketio.on('force_tutee_remove')
