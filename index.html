@@ -1,76 +1,66 @@
 <!doctype html>
 <html>
-
-<head>
-  <title>Availablity | Axis</title>
-  <meta charset="UTF-8">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  <link href="axis.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-  <script src="js/sleep.js"></script>
-  <script src="js/spinner.js"></script>
-  <script src="js/axis.js"></script>
-  
-</head>
-
-<body>
-  <div class="container">
-
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <span class="navbar-brand" href="#"><img src="axislogo.png" height="30px;" class="pull-left"></span>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li id="tuteesign">
-              <a id="ttsignup" href="#" data-toggle="modal" data-target="#signup"><span class="label label-primary">Tutee Sign-up</span></a>
-            </li>
-            <li id="tutorsign">
-              <a href="#" data-toggle="modal" data-target="#signin"><span class="label label-success">Tutor Sign-in</span></a>
-            </li>
-          </ul>
-        </div>
-        <!--/.nav-collapse -->
-      </div>
-      <!--/.container-fluid -->
-    </nav>
-
-    <div class="modal fade" id="signup">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title">Sign Up</h3>
+  <head>
+    <title>Availablity | Axis</title>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="axis.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+    <script src="js/sleep.js"></script>
+    <script src="js/spinner.js"></script>
+    <script src="js/axis.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <span class="navbar-brand" href="#"><img src="axislogo.png" height="30px;" class="pull-left"></span>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label class="control-label" for="name">Name (First and Last if you anticipate a conflict)</label>
-                <input type="text" class="form-control" id="tname" placeholder="Rick Astley">
-              </div>
-
-
-              <div class="form-group" id="tlocationformgroup">
-                <label for="tlocation">Location</label>
-                <select name="tplace" id="tlocationdropdown">
-                  <option value="tcomputer">Computer #</option>
-                  <option value="tlocation">Location</option>
-                </select>
-              </div>
-
-              <div class="form-group" id="tcomputerform">
-                <label class="control-label" for="text">Computer #</label>
-                <input class="form-control" id="tnum" placeholder="42">
-              </div>
-
-              <div class="form-group" id="tlocationform">
-                <label class="control-label" for="text">Location</label>
-                <input class="form-control" id="tlocation" placeholder="Lobby">
-              </div>
-
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li id="tuteesign">
+              <a id="ttsignup" href="#" data-toggle="modal" data-target="#signup"><span class="label label-primary">Tutee Sign-up</span></a>
+              </li>
+              <li id="tutorsign">
+              <a href="#" data-toggle="modal" data-target="#signin"><span class="label label-success">Tutor Sign-in</span></a>
+              </li>
+            </ul>
+          </div>
+          <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+      </nav>
+      <div class="modal fade" id="signup">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Sign Up</h3>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label" for="name">Name (First and Last if you anticipate a conflict)</label>
+                  <input type="text" class="form-control" id="tname" placeholder="Rick Astley">
+                </div>
+                <div class="form-group" id="tlocationformgroup">
+                  <label for="tlocation">Location</label>
+                  <select name="tplace" id="tlocationdropdown">
+                    <option value="tcomputer">Computer #</option>
+                    <option value="tlocation">Location</option>
+                  </select>
+                </div>
+                <div class="form-group" id="tcomputerform">
+                  <label class="control-label" for="text">Computer #</label>
+                  <input class="form-control" id="tnum" placeholder="42">
+                </div>
+                <div class="form-group" id="tlocationform">
+                  <label class="control-label" for="text">Location</label>
+                  <input class="form-control" id="tlocation" placeholder="Lobby">
+                </div>
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -87,185 +77,156 @@
                     </tr>
                   </tbody>
                 </table>
-            </form>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
       </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    <div class="modal fade" id="signin">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title">Sign In</h3>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label class="control-label" for="name">Name (First and Last if you anticipate a conflict)</label>
-                <input type="text" class="form-control" id="name" placeholder="Rick Astley">
-              </div>
-
-
-              <div id="locationformgroup" class="form-group">
-                <label for="location">Location</label>
-                <select name="place" id="locationdropdown">
-                  <option value="computer">Computer #</option>
-                  <option value="location">Location</option>
-                </select>
-              </div>
-
-              <div class="form-group" id="computerform">
-                <label class="control-label" for="text">Computer #</label>
-                <input autocomplete="off" class="form-control" id="num" placeholder="42">
-              </div>
-
-              <div class="form-group" id="locationform">
-                <label class="control-label" for="text">Location</label>
-                <input autocomplete="off"  class="form-control" id="location" placeholder="Lobby">
-              </div>
-
-              <div class="form-group" id="subjectform">
-                <label class="control-label" for="subject">Subject(s) (Comma delimited)</label>
-                <input autocomplete="off"  class="form-control" id="subject" placeholder="10, 20, 30, 154a">
-              </div>
-
-              <div class="form-group" id="passwordform">
-                <label class="control-label" for="password">Password</label>
-                <input autocomplete="off" class="form-control" type="password" id="password" placeholder="Secret!">
-              </div>
-              <div class="form-group" id="serverresponselogin">
-                &nbsp;
-              </div>
-              <button type="button" id="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-
-    <div class="modal fade" id="queue">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 id="queueTitle" class="modal-title">Tutoring Queue</h3>
-          </div>
-          <div class="modal-body" id="displaymodalText">
-<div id="loadingqueue" >
-<div class="browser-screen-loading-content">
-  <div class="loading-dots dark-gray">
-    <i></i>
-    <i></i>
-    <i></i>
-    <i></i>
-  </div>
-</div>
-<br/><br/><br/>
-<div class="text-center">Waiting For Tutors...</div>
-<div class="text-center" id="queuestatus1"></div>
-<div class="text-center" id="queuestatus2"></div>
-          </div>
-          <div id="foundqueue" >
-<div class="text-center">Your Assigned Tutor Is:</div><br/>
-
-<div class="row">
-  <div class="span4"></div>
-  <div class="span4"><img class="center-block" src="http://placehold.it/150x150" /></div>
-  <div class="span4"></div>
-</div>
-<br/>
-<div class="text-center" id="tutorname">Tutor Name</div>
-<div class="text-center" id="tutorlocation">Tutor Location</div>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="exitqueue" class="btn btn-default" data-dismiss="modal">Cancel Queue</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-
-    <div style="display: none;" id= "tutor-control-panel" class="panel panel-default">
-
-      <div class="panel-heading clearfix">
-        <h4>Tutor Control Panel</h4>
-      </div>
-
-      <div class="panel-body">
-      <br/>
-      <div class="text-center" id="tutor_text_status"></div>
-      <br/>
-      <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <button class="btn btn-success" id="nextOrStart">Start Tutoring</button>
-                            <button class="btn btn-danger" id="disconnect"> Disconnect</button>
-                        </div>
-                    </div>
+      <!-- /.modal -->
+      <div class="modal fade" id="signin">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Sign In</h3>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label" for="name">Name (First and Last if you anticipate a conflict)</label>
+                  <input type="text" class="form-control" id="name" placeholder="Rick Astley">
                 </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-    <div class="panel panel-default">
-
-      <div class="panel-heading clearfix">
-        <div class="btn-group pull-right">
-            <button id="refreshtable" class="btn btn-success btn"><span id="refreshicon" class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                <div id="locationformgroup" class="form-group">
+                  <label for="location">Location</label>
+                  <select name="place" id="locationdropdown">
+                    <option value="computer">Computer #</option>
+                    <option value="location">Location</option>
+                  </select>
+                </div>
+                <div class="form-group" id="computerform">
+                  <label class="control-label" for="text">Computer #</label>
+                  <input autocomplete="off" class="form-control" id="num" placeholder="42">
+                </div>
+                <div class="form-group" id="locationform">
+                  <label class="control-label" for="text">Location</label>
+                  <input autocomplete="off"  class="form-control" id="location" placeholder="Lobby">
+                </div>
+                <div class="form-group" id="subjectform">
+                  <label class="control-label" for="subject">Subject(s) (Comma delimited)</label>
+                  <input autocomplete="off"  class="form-control" id="subject" placeholder="10, 20, 30, 154a">
+                </div>
+                <div class="form-group" id="passwordform">
+                  <label class="control-label" for="password">Password</label>
+                  <input autocomplete="off" class="form-control" type="password" id="password" placeholder="Secret!">
+                </div>
+                <div class="form-group" id="serverresponselogin">
+                  &nbsp;
+                </div>
+                <button type="button" id="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
         </div>
-        <h4>Present Tutors</h4>
+        <!-- /.modal-dialog -->
       </div>
-
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <td style="white-space: nowrap;">Name</td>
-              <td>Location/Computer #</td>
-              <td>Subject(s)</td>
-              <td>Status</td>
-            </tr>
-          </thead>
-          <tbody id="tutorbody">
-            <!-- sample data, will be populated based on server data-->
-            <tr id="1">
-              <td>Loading Tutor List...</td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- /.modal -->
+      <div class="modal fade" id="queue">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 id="queueTitle" class="modal-title">Tutoring Queue</h3>
+            </div>
+            <div class="modal-body" id="displaymodalText">
+              <div id="loadingqueue" >
+                <div class="browser-screen-loading-content">
+                  <div class="loading-dots dark-gray">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                  </div>
+                </div>
+                <br/><br/><br/>
+                <div class="text-center">Waiting For Tutors...</div>
+                <div class="text-center" id="queuestatus1"></div>
+                <div class="text-center" id="queuestatus2"></div>
+              </div>
+              <div id="foundqueue" >
+                <div class="text-center">Your Assigned Tutor Is:</div><br/>
+                <div class="row">
+                  <div class="span4"></div>
+                  <div class="span4"><img class="center-block" src="http://placehold.it/150x150" /></div>
+                  <div class="span4"></div>
+                </div>
+                <br/>
+                <div class="text-center" id="tutorname">Tutor Name</div>
+                <div class="text-center" id="tutorlocation">Tutor Location</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="exitqueue" class="btn btn-default" data-dismiss="modal">Cancel Queue</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <div style="display: none;" id= "tutor-control-panel" class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h4>Tutor Control Panel</h4>
+        </div>
+        <div class="panel-body">
+          <br/>
+          <div class="text-center" id="tutor_text_status"></div>
+          <br/>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center">
+                <button class="btn btn-success" id="nextOrStart">Start Tutoring</button>
+                <button class="btn btn-danger" id="disconnect"> Disconnect</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <div class="btn-group pull-right">
+            <button id="refreshtable" class="btn btn-success btn"><span id="refreshicon" class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+          </div>
+          <h4>Present Tutors</h4>
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <td style="white-space: nowrap;">Name</td>
+                <td>Location/Computer #</td>
+                <td>Subject(s)</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            <tbody id="tutorbody">
+              <!-- sample data, will be populated based on server data-->
+              <tr id="1">
+                <td>Loading Tutor List...</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-
-
-
-  </div>
-</body>
-
+  </body>
 </html>
