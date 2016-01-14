@@ -21,19 +21,23 @@
             <span class="navbar-brand" href="#"><img src="axislogo.png" height="30px;" class="pull-left"></span>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li id="tuteesign">
-              <a id="ttsignup" href="#" data-toggle="modal" data-target="#signup"><span class="label label-primary">Tutee Sign-up</span></a>
-              </li>
-              <li id="tutorsign">
-              <a href="#" data-toggle="modal" data-target="#signin"><span class="label label-success">Tutor Sign-in</span></a>
-              </li>
-            </ul>
           </div>
           <!--/.nav-collapse -->
         </div>
         <!--/.container-fluid -->
       </nav>
+      <div class="main-buttons">
+        <button class="tutee"
+          data-toggle="modal"
+          data-target="#signup">
+          Get a tutor
+        </button>
+        <button class="tutor"
+          data-toggle="modal"
+          data-target="#signin">
+          Tutor others
+        </button>
+      </div>
       <div class="modal fade" id="signup">
         <div class="modal-dialog">
           <div class="modal-content">

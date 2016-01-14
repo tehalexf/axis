@@ -3,10 +3,6 @@ body {
   padding-bottom: 20px;
 }
 
-.navbar {
-  margin-bottom: 20px;
-}
-
 .navbar-brand {
   font-weight: bold;
   font-style: italic;
@@ -135,3 +131,47 @@ thead {
 @-webkit-keyframes loading-dots-last-dot{100%{-webkit-transform:translate(2em);-moz-transform:translate(2em);-o-transform:translate(2em);-ms-transform:translate(2em);transform:translate(2em);opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0)}}
 @-o-keyframes loading-dots-last-dot{100%{-webkit-transform:translate(2em);-moz-transform:translate(2em);-o-transform:translate(2em);-ms-transform:translate(2em);transform:translate(2em);opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0)}}
 @keyframes loading-dots-last-dot{100%{-webkit-transform:translate(2em);-moz-transform:translate(2em);-o-transform:translate(2em);-ms-transform:translate(2em);transform:translate(2em);opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0)}}
+
+.main-buttons {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+.main-buttons button {
+  padding: 1rem;
+  border-radius: 1rem;
+  color: white;
+  min-width: 40%;
+  width: 25rem; /* to make the buttons equally wide */
+  max-width: 95%; /* 5% left for margin */
+  border-width: 5px;
+  margin: 10px 2.5%;
+}
+.tutee {
+  background-color: #337AB7; /* blue */
+  text-shadow: 0px 1px 5px #193D5B;
+}
+.tutee:hover {
+  background-color: #1C619E;
+  text-shadow: 0px 1px 8px #193D5B;
+}
+.tutee:active {
+  text-shadow: 0px 1px 8px #193D5B;
+}
+.tutee:focus {
+  background-color: #175184;
+}
+.tutor {
+  background-color: #5CB85C; /* green */
+  text-shadow: 0px 1px 5px #2E5C2E;
+}
+.tutor:hover {
+  background-color: #449D44;
+  text-shadow: 0px 1px 8px #2E5C2E;
+}
+.tutor:active {
+  text-shadow: 0px 1px 2px #2E5C2E;
+}
+.tutor:focus {
+  background-color: #398439;
+}
