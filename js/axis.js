@@ -510,5 +510,8 @@ $(document).ready(function() {
     socket.emit('subjects_req');
     console.log("REQUESTED SUBS");
 
-
+    var buttons = document.getElementsByClassName("disabled-at-start");
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = false;
+    }
 });

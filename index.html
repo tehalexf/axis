@@ -27,14 +27,16 @@
         <!--/.container-fluid -->
       </nav>
       <div class="main-buttons">
-        <button class="tutee"
+        <button class="tutee disabled-at-start"
           data-toggle="modal"
-          data-target="#signup">
+          data-target="#signup"
+          disabled autocomplete="off">
           Get a tutor
         </button>
-        <button class="tutor"
+        <button class="tutor disabled-at-start"
           data-toggle="modal"
-          data-target="#signin">
+          data-target="#signin"
+          disabled autocomplete="off">
           Tutor others
         </button>
       </div>
@@ -204,7 +206,10 @@
       </div>
       <div class="panel panel-default">
         <div class="tutors-list panel-heading clearfix">
-          <button id="refreshtable" class="refresh-button" title="Refresh List">
+          <button id="refreshtable"
+            class="refresh-button disabled-at-start"
+            title="Refresh List"
+            disabled autocomplete="off">
             <img id="refreshicon" src="refresh.svg" alt="refresh">
           </button>
           <h4 class="tutors-list-heading">Present Tutors</h4>
