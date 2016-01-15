@@ -1,8 +1,3 @@
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
 .navbar-brand {
   font-weight: bold;
   font-style: italic;
@@ -138,20 +133,51 @@ button.disabled-at-start:disabled {
   cursor: not-allowed;
 }
 
+.container {
+  margin: 10px auto;
+}
+
+.panel {
+  clear: both;
+}
+
+.modal-dialog {
+  margin: 20px auto;
+}
+
+.welcome {
+  border: 1px solid #E7E7E7;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  overflow: auto;
+  padding: 10px 15px;
+  width: 100%;
+}
+.welcome h1 {
+  clear: both;
+  margin-top: 0px;
+  padding: 10px 15px;
+}
+.intro {
+  float: left;
+  padding: 10px 15px;
+}
+
 .main-buttons {
+  float: right;
   font-size: 28px;
   font-weight: bold;
   text-align: center;
+  padding: 10px 15px;
 }
 .main-buttons button {
+  float: left;
   padding: 1rem;
   border-radius: 1rem;
   color: white;
-  min-width: 40%;
-  width: 25rem; /* to make the buttons equally wide */
-  max-width: 95%; /* 5% left for margin */
+  width: 100%;
   border-width: 5px;
-  margin: 10px 2.5%;
+  margin: 10px 0px;
 }
 .tutee {
   background-color: #337AB7; /* blue */
@@ -204,4 +230,19 @@ button.disabled-at-start:disabled {
 }
 .tutors-list .tutors-list-heading {
   margin: 10px;
+}
+
+footer {
+  background-color: #F8F8F8;
+  border: 1px solid #E7E7E7;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  position: relative;
+}
+footer .copyright {
+  font-size: 12px;
+  display: inline-block;
+  margin: 0px 10px;
+  vertical-align: center;
 }

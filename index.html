@@ -14,32 +14,32 @@
   </head>
   <body>
     <div class="container">
-      <!-- Static navbar -->
-      <nav class="navbar navbar-default navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <span class="navbar-brand" href="#"><img src="axislogo.png" height="30px;" class="pull-left"></span>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-          </div>
-          <!--/.nav-collapse -->
+      <section class="welcome">
+        <h1>Welcome to the tutoring queue</h1>
+        <article class="intro">
+          <p>Here you can</p>
+          <ul>
+            <li>sign up to receive tutoring,</li>
+            <li>see which tutors are available, and</li>
+            <li>sign in as a tutor.</li>
+          </ul>
+          <p>Click one of the buttons to get started.</p>
+        </article>
+        <div class="main-buttons">
+          <button class="tutee disabled-at-start"
+            data-toggle="modal"
+            data-target="#signup"
+            disabled autocomplete="off">
+            Get a tutor
+          </button>
+          <button class="tutor disabled-at-start"
+            data-toggle="modal"
+            data-target="#signin"
+            disabled autocomplete="off">
+            Tutor others
+          </button>
         </div>
-        <!--/.container-fluid -->
-      </nav>
-      <div class="main-buttons">
-        <button class="tutee disabled-at-start"
-          data-toggle="modal"
-          data-target="#signup"
-          disabled autocomplete="off">
-          Get a tutor
-        </button>
-        <button class="tutor disabled-at-start"
-          data-toggle="modal"
-          data-target="#signin"
-          disabled autocomplete="off">
-          Tutor others
-        </button>
-      </div>
+      </section>
       <div class="modal fade" id="signup">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -210,7 +210,7 @@
             class="refresh-button disabled-at-start"
             title="Refresh List"
             disabled autocomplete="off">
-            <img id="refreshicon" src="refresh.svg" alt="refresh">
+            <img id="refreshicon" src="img/refresh.svg" alt="refresh">
           </button>
           <h4 class="tutors-list-heading">Present Tutors</h4>
         </div>
@@ -227,7 +227,7 @@
             <tbody id="tutorbody">
               <!-- sample data, will be populated based on server data-->
               <tr id="1">
-                <td>Loading Tutor List...</td>
+                <td>Loading Tutor List &hellip;</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -236,6 +236,10 @@
           </table>
         </div>
       </div>
+      <footer>
+        <img src="img/axislogo-black-small.png" height="30px">
+        <p class="copyright text-muted">&copy; 2016 Davis Computer Science Club</p>
+      </footer>
     </div>
   </body>
 </html>
