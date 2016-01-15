@@ -21,7 +21,7 @@ thead {
     z-index: 1041 !important;
 }
 
-.fa-spin-custom, .glyphicon-spin {
+.fa-spin-custom {
   -webkit-animation: spin 1000ms infinite linear;
   animation: spin 1000ms infinite linear;
 }
@@ -174,4 +174,28 @@ thead {
 }
 .tutor:focus {
   background-color: #398439;
+}
+
+.refresh-button {
+  background-color: #DDDDDD;
+  line-height: 0;
+  height: 4rem;
+  width: 4rem;
+  border-width: 2px;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+.refresh-button:hover {
+  background-color: #C1C1C1;
+}
+.refresh-button:focus {
+  background-color: #AAAAAA;
+}
+
+.tutors-list > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+.tutors-list .tutors-list-heading {
+  margin: 10px;
 }
